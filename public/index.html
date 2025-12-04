@@ -2,21 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Permanent HTML Uploader</title>
+<title>HTML Uploader</title>
 <style>
 body { font-family: Arial; max-width: 600px; margin: 40px auto; }
 button { padding: 10px 20px; cursor: pointer; margin-top: 10px; }
 input { width:100%; padding:8px; margin-top:5px; }
-#output { margin-top: 20px; word-break: break-all; }
+#status { margin-top: 20px; }
+#output { word-break: break-word; margin-top: 10px; }
 </style>
 </head>
 <body>
 
-<h2>Upload HTML → Permanent IPFS Link</h2>
+<h2>Upload HTML → Permanent Link</h2>
 
-<p>Select your HTML file:</p>
-<input type="file" id="fileInput"><br><br>
-
+<input type="file" id="fileInput" accept=".html"><br><br>
 <button onclick="upload()">Upload</button>
 
 <p id="status"></p>
@@ -37,11 +36,8 @@ async function upload() {
         const data = await res.json();
 
         if (data.url) {
-            document.getElementById('status').innerText = 'Upload complete!';
-            document.getElementById('output').innerHTML = `
-                <strong>Permanent Link:</strong><br>
-                <a href="${data.url}" target="_blank">${data.url}</a>
-            `;
+            document.getElementById('status').innerText = 'Upload successful!';
+            document.getElementById('output').innerHTML = `<a href="${data.url}" target="_blank">${data.url}</a>`;
         } else {
             document.getElementById('status').innerText = 'Upload failed.';
             console.error(data);
