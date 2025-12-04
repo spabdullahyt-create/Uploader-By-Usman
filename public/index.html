@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Permanent HTML Uploader</title>
+<style>
+body { font-family: Arial; max-width: 600px; margin: 40px auto; }
+button { padding: 10px 20px; cursor: pointer; margin-top: 10px; }
+input { width:100%; padding:8px; margin-top:5px; }
+#output { margin-top: 20px; word-break: break-all; }
+</style>
+</head>
+<body>
+
+<h2>Upload HTML → Permanent IPFS Link</h2>
+
+<p>Select your HTML file:</p>
+<input type="file" id="fileInput"><br><br>
+
+<button onclick="upload()">Upload</button>
+
+<p id="status"></p>
+<div id="output"></div>
+
+<script>
+async function upload() {
+    const file = document.getElementById('fileInput').files[0];
+    if (!file) return alert('Please select a file.');
+
+    document.getElementById('status').innerText = 'Uploading...';
+
+    const form = new FormData();
+    form.append('file', file);
+
+    try {
+        const res = await fetch('/api/upload', { method: 'POST', body: form });
+        const data = await res.json();
+
+        if (data.url) {
+            document.getElementById('status').innerText = 'Upload complete!';
+            document.getElementById('output').innerHTML = `
+                <strong>Permanent Link:</strong><br>
+                <a href="${data.url}" target="_blank">${data.url}</a>
+            `;
+        } else {
+            document.getElementById('status').innerText = 'Upload failed.';
+            console.error(data);
+        }
+    } catch (err) {
+        document.getElementById('status').innerText = 'Upload failed.';
+        console.error(err);
+    }
+}
+</script>
+
+</body>
+</html>
