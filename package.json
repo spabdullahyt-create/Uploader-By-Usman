@@ -1,0 +1,8 @@
+{
+  "name": "permanent-uploader",
+  "version": "1.0.0",
+  "dependencies": {
+    "formidable": "^2.2.1",
+    "node-fetch": "^2.6.7"
+  }
+}
